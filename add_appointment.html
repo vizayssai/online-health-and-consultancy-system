@@ -1,0 +1,78 @@
+{% extends 'navigationbar.html' %}
+{% load static %}
+{% block body %}
+<style>
+  .container-bg {
+    position: relative;
+    background: url("{% static 'images/appointments.jpg' %}") no-repeat center center fixed;
+    background-size: cover;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white; /* Text color on top of the overlay */
+  }
+
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Dark overlay color */
+  }
+
+  .container-content {
+    z-index: 1; /* Place the content on top of the overlay */
+  }
+</style>
+
+<div class="container container-bg">
+  <div class="overlay"></div>
+  <div class="container-content">
+    <img src="{% static 'images/appointments.jpg' %}" width="300" height="200" class="img-responsive">
+    <div class="container" style="margin-top:50px">
+      <h2 class="text-center">Add_Appointment</h2>
+      <br><br>
+      <form method="post" action="">
+        {% csrf_token %}
+
+        <label>Doctor name</label>
+        <select name="doctor" class="form-control">
+          {% for i in doctor %}
+          <option value="{{ i.name }}">{{ i.name }} [{{ i.id }}]</option>
+          {% endfor %}
+        </select>
+        <br>
+        <label>Patient</label>
+        <select name="Patient" class="form-control">
+          {% for i in Patient %}
+          <option value="{{ i.name }}">{{ i.name }} [{{ i.id }}]</option>
+          {% endfor %}
+        </select>
+        <br>
+        <label>Date</label>
+        <input type="date" class="form-control" name="date" required>
+        <label>Time</label>
+        <input type="time" class="form-control" name="time" required>
+        <br>
+        <input type="submit" value="submit" class="form-control btn btn-primary">
+      </form>
+    </div>
+
+    {% if error == "no" %}
+    <script>
+      alert('Record saved successfully');
+      window.location = '{% url 'View_appointment' %}';
+    </script>
+    {% else %}
+    {% if error == "yes" %}
+    <script>
+      alert('data not saved into the database');
+    </script>
+    {% endif %}
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}

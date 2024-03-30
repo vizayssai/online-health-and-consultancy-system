@@ -1,0 +1,48 @@
+<!-- consultation/templates/patient_signup.html -->
+{% extends 'navigationbar.html' %}
+{% load static %}
+
+{% block body %}
+</style>
+    <h2>Patient Signup</h2>
+    <form method="post" action="{% url 'patient_signup' %}">
+        {% csrf_token %}
+
+
+
+<div class="container container-bg" style="margin-top:50px">
+    <h2 class="text-center">patient_signup</h2>
+    <br><br>
+    <form method="post" action="{% url 'add_patient' %}">
+        {% csrf_token %}
+        <label>Patient name</label>
+        <input type="text" class="form-control" name="name" required>
+        <label>Gender</label>
+        <input type="radio" name="gender" value="male"> Male
+        <input type="radio" name="gender" value="female"> Female
+        <br>
+        <label>Contact</label>
+        <input type="text" class="form-control" name="Mobile" required>
+        <label>Address</label>
+        <textarea class="form-control" name="Address" required></textarea>
+        <br>
+        <input type="submit" value="Submit" class="form-control btn btn-primary">
+    </form>
+</div>
+
+<div></div>
+
+{% if error == "no" %}
+    <script>
+        alert('patient signed in successfully');
+        window.location = "{% url 'patient_signup' %}";
+    </script>
+{% endif %}
+
+{% if error == "yes" %}
+    <script>
+        alert('Data not saved into the database, DB Error');
+        window.location.href = "{% url 'home' %}";
+    </script>
+{% endif %}
+{% endblock %}

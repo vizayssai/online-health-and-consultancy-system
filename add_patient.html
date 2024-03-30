@@ -1,0 +1,59 @@
+{% extends 'navigationbar.html' %}
+{% load static %}
+
+{% block body %}
+<style>
+  .container-bg {
+    background: url("{% static 'images/patients.jpg' %}") no-repeat center center fixed;
+    background-size: cover;
+    padding: 50px; /* Adjust as needed */
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
+
+<div class="container container-bg" style="margin-top:50px">
+    <h2 class="text-center">Add_patient</h2>
+    <br><br>
+    <form method="post" action="{% url 'add_patient' %}">
+        {% csrf_token %}
+        <label>Patient name</label>
+        <input type="text" class="form-control" name="name" required>
+        <label>Gender</label>
+        <input type="radio" name="gender" value="male"> Male
+        <input type="radio" name="gender" value="female"> Female
+        <br>
+        <label>Contact</label>
+        <input type="text" class="form-control" name="Mobile" required>
+         <label>HEIGHT</label>
+        <input type="text" class="form-control" name="inchs" required>
+        <label>DO YOU EAT JUNK FOOD</label>
+        <input type="radio" name="junk food" value="yes"> yes
+         <input type="radio" name="junk food" value="no"> NO
+        <br>
+        <label>Address</label>
+        <textarea class="form-control" name="Address" required></textarea>
+        <br>
+        <input type="submit" value="Submit" class="form-control btn btn-primary">
+    </form>
+</div>
+
+<div></div>
+
+{% if error == "no" %}
+    <script>
+        alert('record saved successfully');
+        window.location = '{% url 'add_patient' %}';
+    </script>
+{% endif %}
+
+{% if error == "yes" %}
+    <script>
+        alert('Data not saved into the database, DB Error');
+        window.location.href = "{% url 'home' %}";
+    </script>
+{% endif %}
+{% endblock %}
